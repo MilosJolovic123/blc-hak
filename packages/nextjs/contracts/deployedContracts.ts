@@ -4,6 +4,349 @@
  */
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
-const deployedContracts = {} as const;
+const deployedContracts = {
+  11155111: {
+    DigitalIdentity: {
+      address: "0xC28AE54Bd9C7Ff9aA80b305F1f3A2e04D59703b9",
+      abi: [
+        {
+          inputs: [],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "citizen",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "fullName",
+              type: "string",
+            },
+          ],
+          name: "IdentityCreated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "requestId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "citizen",
+              type: "address",
+            },
+          ],
+          name: "RequestApproved",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "requestId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "citizen",
+              type: "address",
+            },
+          ],
+          name: "RequestRejected",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "requestId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "citizen",
+              type: "address",
+            },
+          ],
+          name: "RequestSubmitted",
+          type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "requestId",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "dateOfExpiry",
+              type: "uint256",
+            },
+          ],
+          name: "approveRequest",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "citizenRequestIds",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+          ],
+          name: "getIdentity",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "string",
+                  name: "fullName",
+                  type: "string",
+                },
+                {
+                  internalType: "uint256",
+                  name: "dateOfBirth",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "dateOfExpiry",
+                  type: "uint256",
+                },
+                {
+                  internalType: "string",
+                  name: "citizenship",
+                  type: "string",
+                },
+                {
+                  internalType: "bool",
+                  name: "exists",
+                  type: "bool",
+                },
+              ],
+              internalType: "struct DigitalIdentity.Identity",
+              name: "",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getMyIdentity",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "string",
+                  name: "fullName",
+                  type: "string",
+                },
+                {
+                  internalType: "uint256",
+                  name: "dateOfBirth",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "dateOfExpiry",
+                  type: "uint256",
+                },
+                {
+                  internalType: "string",
+                  name: "citizenship",
+                  type: "string",
+                },
+                {
+                  internalType: "bool",
+                  name: "exists",
+                  type: "bool",
+                },
+              ],
+              internalType: "struct DigitalIdentity.Identity",
+              name: "",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getPendingRequests",
+          outputs: [
+            {
+              internalType: "uint256[]",
+              name: "",
+              type: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+          ],
+          name: "identityExists",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "issuer",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "requestId",
+              type: "uint256",
+            },
+          ],
+          name: "rejectRequest",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "requests",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "id",
+              type: "uint256",
+            },
+            {
+              internalType: "address",
+              name: "citizen",
+              type: "address",
+            },
+            {
+              internalType: "string",
+              name: "fullName",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "dateOfBirth",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "citizenship",
+              type: "string",
+            },
+            {
+              internalType: "enum DigitalIdentity.RequestStatus",
+              name: "status",
+              type: "uint8",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "fullName",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "dateOfBirth",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "citizenship",
+              type: "string",
+            },
+          ],
+          name: "submitRequest",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {},
+    },
+  },
+} as const;
 
 export default deployedContracts satisfies GenericContractsDeclaration;

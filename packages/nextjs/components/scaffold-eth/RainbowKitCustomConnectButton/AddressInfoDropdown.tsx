@@ -66,30 +66,30 @@ export const AddressInfoDropdown = ({
               {isAddressCopiedToClipboard ? (
                 <>
                   <CheckCircleIcon className="text-xl font-normal h-6 w-4 ml-2 sm:ml-0" aria-hidden="true" />
-                  <span className="whitespace-nowrap">Copied!</span>
+                  <span className="whitespace-nowrap text-[#1A237E]">Copied!</span>
                 </>
               ) : (
                 <>
-                  <DocumentDuplicateIcon className="text-xl font-normal h-6 w-4 ml-2 sm:ml-0" aria-hidden="true" />
-                  <span className="whitespace-nowrap">Copy address</span>
+                  <DocumentDuplicateIcon className="text-xl font-normal h-6 w-4 ml-2 sm:ml-0 text-[#1A237E]" aria-hidden="true" />
+                  <span className="whitespace-nowrap text-[#1A237E]">Copy address</span>
                 </>
               )}
             </div>
           </li>
           <li className={selectingNetwork ? "hidden" : ""}>
             <label htmlFor="qrcode-modal" className="h-8 btn-sm rounded-xl! flex gap-3 py-3">
-              <QrCodeIcon className="h-6 w-4 ml-2 sm:ml-0" />
-              <span className="whitespace-nowrap">View QR Code</span>
+              <QrCodeIcon className="h-6 w-4 ml-2 sm:ml-0 text-[#1A237E]" />
+              <span className="whitespace-nowrap text-[#1A237E]">View QR Code</span>
             </label>
           </li>
           <li className={selectingNetwork ? "hidden" : ""}>
             <button className="h-8 btn-sm rounded-xl! flex gap-3 py-3" type="button">
-              <ArrowTopRightOnSquareIcon className="h-6 w-4 ml-2 sm:ml-0" />
+              <ArrowTopRightOnSquareIcon className="h-6 w-4 ml-2 sm:ml-0 text-[#1A237E]" />
               <a
                 target="_blank"
                 href={blockExplorerAddressLink}
                 rel="noopener noreferrer"
-                className="whitespace-nowrap"
+                className="whitespace-nowrap text-[#1A237E]"
               >
                 View on Block Explorer
               </a>
@@ -98,13 +98,13 @@ export const AddressInfoDropdown = ({
           {allowedNetworks.length > 1 ? (
             <li className={selectingNetwork ? "hidden" : ""}>
               <button
-                className="h-8 btn-sm rounded-xl! flex gap-3 py-3"
+                className="h-8 btn-sm rounded-xl! flex gap-3 py-3 text-[#1A237E]"
                 type="button"
                 onClick={() => {
                   setSelectingNetwork(true);
                 }}
               >
-                <ArrowsRightLeftIcon className="h-6 w-4 ml-2 sm:ml-0" /> <span>Switch Network</span>
+                <ArrowsRightLeftIcon className="h-6 w-4 ml-2 sm:ml-0 text-[#1A237E]" /> <span>Switch Network</span>
               </button>
             </li>
           ) : null}

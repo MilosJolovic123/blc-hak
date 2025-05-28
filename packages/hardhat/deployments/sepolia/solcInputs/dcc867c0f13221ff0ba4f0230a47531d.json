@@ -1,0 +1,36 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/DigitalIdentity.sol": {
+      "content": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.8.0 <0.9.0;\r\n\r\ncontract DigitalIdentity {\r\n    // --- Roles & State ---\r\n    address public constant issuer = 0xfa65490C296Bfc0A053EA828EA3069718f4478b6;\r\n    uint256 private nextRequestId;\r\n\r\n    constructor() {\r\n        nextRequestId = 1;\r\n    }\r\n\r\n    enum RequestStatus { Pending, Approved, Rejected }\r\n\r\n    struct Request {\r\n        uint256 id;\r\n        address citizen;\r\n        string fullName;\r\n        uint256 dateOfBirth;\r\n        string citizenship;\r\n        RequestStatus status;\r\n    }\r\n\r\n    // Mappings for requests\r\n    mapping(uint256 => Request) public requests;\r\n    mapping(address => uint256[]) public citizenRequestIds;\r\n\r\n    // Mapping for issued identities\r\n    struct Identity {\r\n        string fullName;\r\n        uint256 dateOfBirth;\r\n        uint256 dateOfExpiry;\r\n        string citizenship;\r\n        bool exists;\r\n    }\r\n    mapping(address => Identity) private identities;\r\n\r\n    // --- Events ---\r\n    event RequestSubmitted(uint256 indexed requestId, address indexed citizen);\r\n    event RequestApproved(uint256 indexed requestId, address indexed citizen);\r\n    event RequestRejected(uint256 indexed requestId, address indexed citizen);\r\n    event IdentityCreated(address indexed citizen, string fullName);\r\n\r\n    // --- Modifiers ---\r\n    modifier onlyIssuer() {\r\n        require(msg.sender == issuer, \"Caller is not the authorized issuer\");\r\n        _;\r\n    }\r\n\r\n    // --- Request Workflow ---\r\n\r\n    /// @notice Citizen submits a new request for ID issuance\r\n    function submitRequest(\r\n        string calldata fullName,\r\n        uint256 dateOfBirth,\r\n        string calldata citizenship\r\n    ) external {\r\n        uint256 requestId = nextRequestId++;\r\n        requests[requestId] = Request({\r\n            id: requestId,\r\n            citizen: msg.sender,\r\n            fullName: fullName,\r\n            dateOfBirth: dateOfBirth,\r\n            citizenship: citizenship,\r\n            status: RequestStatus.Pending\r\n        });\r\n        citizenRequestIds[msg.sender].push(requestId);\r\n        emit RequestSubmitted(requestId, msg.sender);\r\n    }\r\n\r\n    /// @notice Issuer views all pending requests (IDs only)\r\n    function getPendingRequests() external view onlyIssuer returns (uint256[] memory) {\r\n        uint256[] memory temp = new uint256[](nextRequestId - 1);\r\n        uint256 count = 0;\r\n        for (uint256 i = 1; i < nextRequestId; i++) {\r\n            if (requests[i].status == RequestStatus.Pending) {\r\n                temp[count++] = i;\r\n            }\r\n        }\r\n        uint256[] memory pending = new uint256[](count);\r\n        for (uint256 j = 0; j < count; j++) {\r\n            pending[j] = temp[j];\r\n        }\r\n        return pending;\r\n    }\r\n\r\n    /// @notice Issuer approves a request and issues an identity\r\n    function approveRequest(uint256 requestId, uint256 dateOfExpiry) external onlyIssuer {\r\n        Request storage req = requests[requestId];\r\n        require(req.status == RequestStatus.Pending, \"Request not pending\");\r\n        req.status = RequestStatus.Approved;\r\n\r\n        identities[req.citizen] = Identity({\r\n            fullName: req.fullName,\r\n            dateOfBirth: req.dateOfBirth,\r\n            dateOfExpiry: dateOfExpiry,\r\n            citizenship: req.citizenship,\r\n            exists: true\r\n        });\r\n\r\n        emit RequestApproved(requestId, req.citizen);\r\n        emit IdentityCreated(req.citizen, req.fullName);\r\n    }\r\n\r\n    /// @notice Issuer rejects a request\r\n    function rejectRequest(uint256 requestId) external onlyIssuer {\r\n        Request storage req = requests[requestId];\r\n        require(req.status == RequestStatus.Pending, \"Request not pending\");\r\n        req.status = RequestStatus.Rejected;\r\n        emit RequestRejected(requestId, req.citizen);\r\n    }\r\n\r\n    // --- Identity Access ---\r\n\r\n    function identityExists(address user) external view returns (bool) {\r\n        return identities[user].exists;\r\n    }\r\n\r\n    function getMyIdentity() external view returns (Identity memory) {\r\n        require(identities[msg.sender].exists, \"Identity does not exist\");\r\n        return identities[msg.sender];\r\n    }\r\n\r\n    function getIdentity(address user) external view returns (Identity memory) {\r\n        require(identities[user].exists, \"Identity does not exist\");\r\n        return identities[user];\r\n    }\r\n}\r\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

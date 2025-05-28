@@ -1,0 +1,36 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/DigitalIdentity.sol": {
+      "content": "pragma solidity >=0.8.0 <0.9.0;\r\n\r\ncontract DigitalIdentity {\r\n    // 1) Definiši event\r\n    event IdentityCreated(address indexed user, string fullName);\r\n\r\n    struct Identity {\r\n        string fullName;\r\n        uint256 dateOfBirth;\r\n        bool exists;\r\n        uint256 dateOfExpiry;\r\n        string citizenship;\r\n    }\r\n\r\n    mapping(address => Identity) private identities;\r\n\r\n    constructor() {\r\n        address testUser = 0x50278E3357f748298df487C96De4C5072142a073;\r\n\r\n        identities[testUser] = Identity({\r\n            fullName: \"Milos Jolovic\",\r\n            dateOfBirth: 1002499200,\r\n            exists: true,\r\n            dateOfExpiry: 1954800000,\r\n            citizenship: \"Serbian\"\r\n        });\r\n\r\n        // 2) String literal u dvostrukim navodnicima\r\n        emit IdentityCreated(testUser, \"Milos Jolovic\");\r\n    }\r\n\r\n    function createIdentity(\r\n        string memory fullName,       // dodat memory\r\n        uint256 dateOfBirth,\r\n        bool exists,\r\n        uint256 dateOfExpiry,\r\n        string memory citizenship     // dodat memory\r\n    ) public {\r\n        identities[msg.sender] = Identity(fullName, dateOfBirth, exists, dateOfExpiry, citizenship);\r\n        emit IdentityCreated(msg.sender, fullName);\r\n    }\r\n\r\n    function getMyIdentity() public view returns (Identity memory) {\r\n        require(identities[msg.sender].exists, \"Identity does not exist\");\r\n        return identities[msg.sender];\r\n    }\r\n\r\n    function identityExists(address user) public view returns (bool) {\r\n        return identities[user].exists;\r\n    }\r\n\r\n    /// @notice Vraća Identity za proizvoljnu adresu\r\nfunction getIdentity(address user) public view returns (Identity memory) {\r\n    require(identities[user].exists, \"Identity does not exist\");\r\n    return identities[user];\r\n}\r\n\r\n}\r\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
